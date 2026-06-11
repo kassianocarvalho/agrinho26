@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agro Forte - Futuro Sustentável</title>
+
+<style>
+:root{
+    --verde:#2e7d32;
+    --verde-claro:#4caf50;
+    --azul:#0288d1;
+    --amarelo:#ffc107;
+    --fundo:#eef7ee;
+    --branco:#fff;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial, Helvetica, sans-serif;
+    background:linear-gradient(to bottom,#d7f5d7,#eef7ee);
+    min-height:100vh;
+}
+
+header{
+    background:var(--verde);
+    color:white;
+    text-align:center;
+    padding:20px;
+    box-shadow:0 3px 8px rgba(0,0,0,.2);
+}
+
+.container{
+    max-width:1200px;
+    margin:auto;
+    padding:20px;
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    gap:20px;
+}
+
+.jogo{
+    text-align:center;
+}
+
+.pontos{
+    font-size:2rem;
+    color:var(--verde);
+    margin:15px 0;
+    font-weight:bold;
+}
+
+.fazenda{
+    font-size:140px;
+    cursor:pointer;
+    user-select:none;
+    transition:.15s;
+}
+
+.fazenda:hover{
+    transform:scale(1.05);
+}
+
+.fazenda:active{
+    transform:scale(.95);
+}
+
+.info{
+    margin-top:10px;
+    font-size:1.2rem;
+}
+
+.loja{
+    background:white;
+    border-radius:15px;
+    padding:15px;
+    box-shadow:0 0 15px rgba(0,0,0,.1);
+}
+
+.loja h2{
+    text-align:center;
+    color:var(--verde);
+    margin-bottom:15px;
+}
+
+.item{
+    border:2px solid #ddd;
+    border-radius:10px;
+    padding:10px;
+    margin-bottom:10px;
+}
+
+.item h3{
+    color:var(--azul);
+}
+
+.item button{
+    width:100%;
+    margin-top:10px;
+    padding:10px;
+    border:none;
+    background:var(--verde);
+    color:white;
+    cursor:pointer;
+    border-radius:8px;
+    font-weight:bold;
+}
+
+.item button:hover{
+    background:var(--verde-claro);
+}
+
+footer{
+    text-align:center;
+    margin-top:20px;
+    padding:20px;
+    color:#555;
+}
+
+.mensagem{
+    margin-top:15px;
+    color:var(--laranja);
+    font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>🌱 Agro Forte, Futuro Sustentável 🌱</h1>
+    <p>Produza recursos sustentáveis e desenvolva a agricultura do futuro.</p>
+</header>
+
+<div class="container">
+
+    <section class="jogo">
+
+        <div class="pontos">
+            Recursos Sustentáveis: <span id="pontos">0</span>
+        </div>
+
+        <div class="fazenda" id="clicker">
+            🚜
+        </div>
+
+        <div class="info">
+            Produção por clique:
+            <span id="porClique">1</span>
+        </div>
+
+        <div class="info">
+            Produção automática:
+            <span id="auto">0</span>/s
+        </div>
+
+        <div class="mensagem" id="mensagem"></div>
+
+    </section>
+
+    <aside class="loja">
+
+        <h2>🛒 Melhorias Sustentáveis</h2>
+
+        <div class="item">
+            <h3>🌾 Sementes Melhoradas</h3>
+            <p>+1 recurso por clique</p>
+            <p>Custo: <span id="custoSemente">20</span></p>
+            <button onclick="comprarSemente()">Comprar</button>
+        </div>
+
+        <div class="item">
+            <h3>💧 Irrigação Inteligente</h3>
+            <p>+2 recursos por segundo</p>
+            <p>Custo: <span id="custoIrrigacao">50</span></p>
+            <button onclick="comprarIrrigacao()">Comprar</button>
+        </div>
+
+        <div class="item">
+            <h3>☀️ Energia Solar</h3>
+            <p>+5 recursos por segundo</p>
+            <p>Custo: <span id="custoSolar">150</span></p>
+            <button onclick="comprarSolar()">Comprar</button>
+        </div>
+
+        <div class="item">
+            <h3>🤖 Agricultura de Precisão</h3>
+            <p>+15 recursos por segundo</p>
+            <p>Custo: <span id="custoRobotica">500</span></p>
+            <button onclick="comprarRobotica()">Comprar</button>
+        </div>
+
+    </aside>
+
+</div>
+
+<footer>
+    Concurso Agrinho 2025 • Agro Forte, Futuro Sustentável
+</footer>
+
+<script>
+
+let recursos = 0;
+let porClique = 1;
+let auto = 0;
+
+let custoSemente = 20;
+let custoIrrigacao = 50;
+let custoSolar = 150;
+let custoRobotica = 500;
+
+const pontos = document.getElementById("pontos");
+const clique = document.getElementById("clicker");
+const msg = document.getElementById("mensagem");
+
+function atualizar(){
+    pontos.textContent = Math.floor(recursos);
+    document.getElementById("porClique").textContent = porClique;
+    document.getElementById("auto").textContent = auto;
+
+    document.getElementById("custoSemente").textContent =
+        Math.floor(custoSemente);
+
+    document.getElementById("custoIrrigacao").textContent =
+        Math.floor(custoIrrigacao);
+
+    document.getElementById("custoSolar").textContent =
+        Math.floor(custoSolar);
+
+    document.getElementById("custoRobotica").textContent =
+        Math.floor(custoRobotica);
+}
+
+clique.addEventListener("click", () => {
+    recursos += porClique;
+    atualizar();
+});
+
+function aviso(texto){
+    msg.textContent = texto;
+    setTimeout(()=>{
+        msg.textContent = "";
+    },2000);
+}
+
+function comprarSemente(){
+
+    if(recursos >= custoSemente){
+
+        recursos -= custoSemente;
+        porClique += 1;
+
+        custoSemente *= 1.5;
+
+        aviso("🌾 Produção agrícola melhorada!");
+
+        atualizar();
+    }else{
+        aviso("Recursos insuficientes!");
+    }
+}
+
+function comprarIrrigacao(){
+
+    if(recursos >= custoIrrigacao){
+
+        recursos -= custoIrrigacao;
+        auto += 2;
+
+        custoIrrigacao *= 1.6;
+
+        aviso("💧 Sistema de irrigação instalado!");
+
+        atualizar();
+    }else{
+        aviso("Recursos insuficientes!");
+    }
+}
+
+function comprarSolar(){
+
+    if(recursos >= custoSolar){
+
+        recursos -= custoSolar;
+        auto += 5;
+
+        custoSolar *= 1.8;
+
+        aviso("☀️ Energia limpa ampliada!");
+
+        atualizar();
+    }else{
+        aviso("Recursos insuficientes!");
+    }
+}
+
+function comprarRobotica(){
+
+    if(recursos >= custoRobotica){
+
+        recursos -= custoRobotica;
+        auto += 15;
+
+        custoRobotica *= 2;
+
+        aviso("🤖 Agricultura inteligente ativada!");
+
+        atualizar();
+    }else{
+        aviso("Recursos insuficientes!");
+    }
+}
+
+setInterval(() => {
+    recursos += auto;
+    atualizar();
+}, 1000);
+
+atualizar();
+
+</script>
+
+</body>
+</html>
